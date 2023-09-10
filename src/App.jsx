@@ -3,8 +3,8 @@ import { Contact } from './pages/Contact'
 import { Home } from './pages/Home'
 import { Favs } from './pages/Favs'
 import { Details } from './pages/Details'
-import './App.css'
 import { Layout } from './pages/Layout'
+
 
 function App() {
 
