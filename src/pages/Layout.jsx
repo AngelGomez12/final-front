@@ -6,7 +6,7 @@ import { ContextProvider } from '../components/utils/global.context'
 
 export const Layout = () => {
     return (
-        <div className='flex flex-col'>
+        <div className='layout'>
             <ContextProvider>
                 <NavBar />
                 <Outlet />
