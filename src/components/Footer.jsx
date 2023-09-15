@@ -1,7 +1,9 @@
-import React from 'react'
+import { useGlobalContext } from "../components/utils/global.context";
 
 export const Footer = () => {
+    const { state } = useGlobalContext();
+
     return (
-        <div>Footer</div>
+        <footer className={state.theme}>Footer</footer>
     )
 }

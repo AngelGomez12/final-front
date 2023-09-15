@@ -9,7 +9,7 @@ export const Details = () => {
         getUserById(id);
     }, [])
     return (
-        <div>
+        <div className='details'>
             <img src="/images/doctor.jpg" alt="doctor" className='image' />
             <h2>{state.user.name} {state.user.lastName}</h2> 
            <p>Email: {state.user.email}</p>

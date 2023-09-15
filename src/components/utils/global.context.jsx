@@ -1,9 +1,10 @@
-import { createContext, useReducer, useContext } from "react";
+import { createContext, useReducer, useContext, useEffect } from "react";
 
 export const initialState = {
     theme: "",
     data: [],
     user: {},
+    favorites: []
 }
 
 export const ContextGlobal = createContext(undefined);
@@ -12,8 +13,9 @@ export const ContextGlobal = createContext(undefined);
 export const ContextProvider = ({ children }) => {
     const [state, dispatch] = useReducer(dataReducer, initialState);
     //Aqui deberan implementar la logica propia del Context, utilizando el hook useMemo
-
+    
     function dataReducer(state, action) {
+        let newFavorites = [];
         switch (action.type) {
             case 'SET_THEME':
                 return { ...state, theme: action.payload };
@@ -26,13 +28,22 @@ export const ContextProvider = ({ children }) => {
             case 'SET_USER':
                 return { ...state, user: action.payload };
             case 'ADD_FAV':
-                return { ...state, data: [...state.data, action.payload] };
+                newFavorites = [...state.favorites, action.payload];
+                localStorage.setItem('favorites', JSON.stringify(newFavorites));
+                return { ...state, favorites: newFavorites };
             case 'CLEAR_DATA':
                 return { ...state, data: [] };
             default:
                 return state;
         }
     }
+
+    useEffect(() => {
+    const storedFavorites = localStorage.getItem('favorites');
+    if (storedFavorites) {
+      dispatch({ type: 'ADD_FAV', payload: JSON.parse(storedFavorites) });
+    }
+  }, []);
 
     const loadData = async () => {
         dispatch({ type: 'LOAD_DATA', payload: state.data })
@@ -65,10 +76,4 @@ export const ContextProvider = ({ children }) => {
 
 export const useGlobalContext = () => {
     return useContext(ContextGlobal);
-}
-
-export const useLocalStorage = (key, initialValue) => {
-      const dentistFav = localStorage.getItem(`${key}`) || '';
-        const newDentistFav = dentistFav ? `${dentistFav},${initialValue}` : initialValue;
-        localStorage.setItem('dentistFav', newDentistFav);
 }

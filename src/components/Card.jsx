@@ -2,24 +2,24 @@ import { useGlobalContext } from './utils/global.context'
 import { Link } from 'react-router-dom'
 
 export const Card = () => {
-    const { state } = useGlobalContext();
+    const { state, dispatch } = useGlobalContext();
     
-    const dentistFav = (id) => {
-        const dentistFav = localStorage.getItem('dentistFav') || '';
-        const newDentistFav = dentistFav ? `${dentistFav},${id}` : id;
-        localStorage.setItem('dentistFav', newDentistFav);
+    const dentistFav = (evt, id) => {
+        evt.stopPropagation();
+        const dentist = state.data.find((item) => item.id === id);
+        dispatch({ type: 'ADD_FAV', payload: dentist });
     }
     return (
         <div className='container-card'>
             {state.data.map((item) => {
                 return (
                     <div key={item.id}>
-                        <Link to={`/details/${item.id}`} className='card'>
+                        <Link to={`/details/${item.id}`} className={'card ' + state.theme}>
                             <img src="/images/doctor.jpg" alt="doctor" className='image' />
                             <h2>{item.name}</h2>
                             <p>{item.email}</p>
-                            <button onClick={() => dentistFav(item.id)}>Fav</button>
                         </Link>
+                            <button onClick={(evt) => dentistFav(evt,item.id)} className='favButton'>Fav</button>
                     </div>
                 )
             })}

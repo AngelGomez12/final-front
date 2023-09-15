@@ -1,7 +1,11 @@
-import React from 'react'
+import { Form } from "../components/Form";
+import { useGlobalContext } from "../components/utils/global.context";
 
 export const Contact = () => {
+    const { state } = useGlobalContext();
     return (
-        <div>Contact</div>
+        <div className={'contact ' + state.theme }>
+            <Form />
+        </div>
     )
 }

@@ -9,7 +9,7 @@ export const Home = () => {
             loadData();
     }, [])
     return (
-        <div className='flex'>
+        <div className={'home ' + state.theme}>
             <Card />
         </div>
     )
